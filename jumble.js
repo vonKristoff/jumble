@@ -1,6 +1,6 @@
 /**
 * Jumble jQuery plug-in
-* Text Colour Shuffle
+* Text Colour Truffle Shuffle
 *
 * @author Jean-Christophe Nicolas <mrjcnicolas@gmail.com>
 * @homepage http://bite-software.co.uk/jumble/
@@ -10,39 +10,103 @@
 */
 (function($) {
 
-var Plugin = function(options){
+var Plugin = function(me,rgb,rgb2,brightness,satuation){
 
-	this.colours = {
-		c1 		: c1,
-		c2 		: c2,
-		shade 	: sh,
-		alpha 	: alf,
-		steps 	: steps
-	}	
+	this.el = me;
+	this.col = rgb;
+	this.rgb2 = (rgb2)? rgb2 : false;
+	this.bright = (brightness)? true : false;
+	this.satuation = (satuation)? true : false;
+
+	this.num = me.html().length;
+	this.pin = ~~(Math.random()*1000);
+
 	this.init();
 }
 Plugin.prototype.init = function(){
 
-	var steps = this.colours.steps;
-	
-	
+	var i = 0, p = this.pin;
+	var chars = $.map(this.el.text().split(''), function(l) {
+		i++;
+  		return '<span class="'+p+'jumble_'+ i +'">' + l + '</span>';
+	});
+	this.el.html(chars.join('')); 
+
+	this.format();
 
 }
 
+Plugin.prototype.format = function(){
 
-$.fn.jumble = function(opts){
+	for(var i=1;i<=this.num;i++){
+
+		var colour = this.swatch();
+		this.el.children('.'+this.pin+'jumble_'+i).css('color',colour);
+	}
+
+}
+Plugin.prototype.swatch = function(){
+	
+	var colour;
+	if(!this.col){
+		colour = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);	
+	}else{
+		var hsl = this.hsl(this.col); 
+		colour = 'rgb(' + this.filter(hsl) + ')';
+	}
+	return colour;
+}
+
+Plugin.prototype.filter = function(hsl){
+
+	var HSL = hsl,
+		l = hsl[2],
+	 	lightness = (this.bright)? ~~( l/2 - (l/2) + Math.random()*l/1.5) : l,
+	 	hue = hsl[0],
+	 	sat = hsl[1];
+	 	
+	if(this.rgb2){
+
+		var hsl2 = this.hsl(this.rgb2),
+			r1 = hsl[0],
+			r2 = hsl2[0];
+		
+		function randomRange(from,to){
+		    return ~~(Math.random()*(to-from+1)+from);
+		}
+		hue = randomRange(r1,r2);
+
+	}
+	if(this.satuation){
+		sat = ~~(Math.random()*100);
+	}
+
+	HSL[0] = hue;
+	HSL[1] = sat;
+	HSL[2] = lightness;
+
+	return this.rgb(HSL);
+}
+
+$.fn.jumble = function(rgb,rgb2,brightness,satuation,time){
 
 	var el = $(this);
-	var jumble = new Plugin(opts);
+
+	var anim = (time)? time : false;
+
+	$(this).each(function(i){
+		var me = $(this);
+		if(anim){
+			setInterval(function(){		
+				var jumble = new Plugin(me,rgb,rgb2,brightness,satuation);	
+			},anim);	
+		}else{
+			var jumble = new Plugin(me,rgb,rgb2,brightness,satuation);		
+		}
+	})
 	
-	return this.el;	
+	return el;	
 }
-
-
-
-
-
-
 
 
 Plugin.prototype.colourFilter = function(){
