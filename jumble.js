@@ -96,7 +96,7 @@ $.fn.jumble = function(rgb,rgb2,brightness,satuation,time){
 
 	$(this).each(function(i){
 		var me = $(this);
-		if(anim){
+		if(anim && window.innerWidth > 500){
 			setInterval(function(){		
 				var jumble = new Plugin(me,rgb,rgb2,brightness,satuation);	
 			},anim);	
