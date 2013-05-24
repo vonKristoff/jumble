@@ -7,12 +7,17 @@ body {
 background: #333;
 overflow: hidden;
 background-image:radial-gradient(rgba(205,255,55,.1285), rgba(0,230,230,.1285),rgba(150,130,230,.1285));
+-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 #shift{
 	padding-top: 50px;
 }
 h1{
+
 	font-size: 96px;
 	text-align: center;
 	font-family: 'helvetica';
@@ -24,6 +29,7 @@ h1{
 }
 .box{
 	-webkit-transform:rotate(2deg);
+
 }
 </style>
 <body>
@@ -53,20 +59,9 @@ h1{
 
 	$('.one h1').jumble([90,200,150],false,false,true);
 	$('.two h1').jumble([255,220,100],false,true,false,1000);
-	$('.three h1').jumble([180,160,90],[230,20,130],true.false,false,200);
+	$('.three h1').jumble([190,180,110],[250,20,170],false,false,200);
 	$('.four h1').jumble([100,180,220],false,true);
 
-	var h = $('.box').height();
 
-	$('.box').css({
-		// 'margin-top':h+'px'
-	});
-
-	// window.onresize=function(){
-	// 	$('.box').css({
-	// 	'margin-top':-h/2+'px'
-	// });
-
-	// }
 })(jQuery);
 </script>

@@ -10,6 +10,7 @@
 */
 (function($) {
 
+
 var Plugin = function(me,rgb,rgb2,brightness,satuation){
 
 	this.el = me;
@@ -95,8 +96,11 @@ $.fn.jumble = function(rgb,rgb2,brightness,satuation,time){
 	var anim = (time)? time : false;
 
 	$(this).each(function(i){
-		var me = $(this);
-		if(anim && window.innerWidth > 500){
+		var me = $(this),
+			play = true;
+		if( isMobile.any() ) play = false;
+		
+		if(anim && play){
 			setInterval(function(){		
 				var jumble = new Plugin(me,rgb,rgb2,brightness,satuation);	
 			},anim);	
@@ -213,5 +217,25 @@ Plugin.prototype.hue2rgb = function(m1, m2, hue) {
 	return 255 * v;
 };
 
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
 
 })(jQuery);
