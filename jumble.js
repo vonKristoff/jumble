@@ -61,9 +61,22 @@ Plugin.prototype.swatch = function(){
 Plugin.prototype.filter = function(hsl){
 
 	var HSL = hsl,
-		l = hsl[2],
-	 	lightness = (this.bright)? ~~( l/2 - (l/2) + Math.random()*l/1.5) : l,
-	 	hue = hsl[0],
+		l = hsl[2], r = l/2,
+		lightness = l;
+
+	if(this.bright){
+
+		if(l<30){
+			lightness = l + Math.random()*l;
+		}else if(l>70){
+			lightness = l - Math.random()*l;
+		}else{
+			lightness = l - r + Math.random()*l;
+		}
+	}
+
+	//var	lightness = (this.bright)? ~~( l/2 - (l/2) + Math.random()*l/1.5) : l,
+	var hue = hsl[0],
 	 	sat = hsl[1];
 	 	
 	if(this.rgb2){
