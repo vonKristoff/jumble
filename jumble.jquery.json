@@ -1,6 +1,6 @@
 {
     "name": "jumble",
-    "title": "JUMBLE up the colours of your header tags, nicely",
+    "title": "JUMBLE (..up the colours of your header tags, nicely)",
     "description": "Welcome to the jumble - A jQuery plugin that jumbles up the lightness/satuation and colours of your text headers/whatevers, and can also animate them (which is mobile safe).",
     "keywords": [
         "css",
